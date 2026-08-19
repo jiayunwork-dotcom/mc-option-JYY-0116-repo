@@ -28,7 +28,12 @@ func HaltonSequence(count, base int) []float64 {
 
 // HaltonNormal 将 Halton 均匀序列通过逆正态 CDF 转换为正态样本。
 func HaltonNormal(count, base int) []float64 {
-	return HaltonSequence(count, base)
+	uniform := HaltonSequence(count, base)
+	out := make([]float64, count)
+	for i, u := range uniform {
+		out[i] = InvNormCDF(u)
+	}
+	return out
 }
 
 // InvNormCDF 标准正态逆累积分布函数（Beasley-Springer-Moro 近似）。
